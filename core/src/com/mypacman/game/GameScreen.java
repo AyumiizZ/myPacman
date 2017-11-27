@@ -11,13 +11,13 @@ import com.badlogic.gdx.math.Vector2;
 public class GameScreen extends ScreenAdapter{
 	private PacmanGame pacmanGame;
 	private Texture pacmanImg;
-//	private Pacman pacman;
-	World world;
+	private World world;
+	private WorldRenderer worldRenderer;
 	public GameScreen(PacmanGame pacmanGame) {
 		this.pacmanGame = pacmanGame;
 		pacmanImg = new Texture("pacman.png");
 		world = new World(pacmanGame);
-//		pacman = new Pacman(100,100);
+		worldRenderer = new WorldRenderer(pacmanGame, world);
 	}
 	private void update(float delta) {
 		if(Gdx.input.isKeyPressed(Keys.LEFT)) {
@@ -36,12 +36,9 @@ public class GameScreen extends ScreenAdapter{
 	@Override
 	public void render(float delta) {
 		update(delta);
-		SpriteBatch batch = pacmanGame.batch;
-		batch.begin();
-		Vector2 pos = world.getPacman().getPosition();
-        batch.draw(pacmanImg, pos.x, pos.y);
 		clear();
-		batch.end();
+		worldRenderer.render(delta);
+		
 	}
 	
 	private void clear() {
